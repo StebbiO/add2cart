@@ -27,7 +27,11 @@ onValue(shoppingListInDB, function(snapshot) {
     clearShoppingListEl()
 
     for (let i = 0; i < itemArray.length; i++) {
-        createListEl(itemArray[i])
+        let currentItem = itemArray[i]
+        let currentItemID = currentItem[0]
+        let currentItemValue = currentItem[1]
+        
+        createListEl(currentItem)
     }
 })
 
@@ -39,6 +43,13 @@ function clearText() {
     inputFieldEl.value = ""
 }
 
-function createListEl(itemValue) {
-    shoppingListEl.innerHTML += `<li>${itemValue}</li>`
+function createListEl(item) {
+    let itemID = item[0]
+    let itemValue = item[1]
+
+    let newEl = document.createElement("li")
+
+    newEl.textContent = itemValue
+
+    shoppingListEl.append(newEl)
 }
