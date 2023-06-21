@@ -13,7 +13,7 @@ const addBtnEl = document.getElementById("add-button")
 const inputFieldEl = document.getElementById("input-field")
 const shoppingListEl = document.getElementById("shopping-list")
 
-addBtn.addEventListener("click", function() {
+addBtnEl.addEventListener("click", function() {
     let inputValue = inputFieldEl.value
 
     push(shoppingListInDB, inputValue)
@@ -22,17 +22,22 @@ addBtn.addEventListener("click", function() {
 })
 
 onValue(shoppingListInDB, function(snapshot) {
-    let itemArray = Object.values(snapshot.val())
+    if (snapshot.exists()) {
+        let itemArray = Object.values(snapshot.val())
 
-    clearShoppingListEl()
+        clearShoppingListEl()
 
-    for (let i = 0; i < itemArray.length; i++) {
-        let currentItem = itemArray[i]
-        let currentItemID = currentItem[0]
-        let currentItemValue = currentItem[1]
-        
-        createListEl(currentItem)
+        for (let i = 0; i < itemArray.length; i++) {
+            let currentItem = itemArray[i]
+            let currentItemID = currentItem[0]
+            let currentItemValue = currentItem[1]
+            
+            createListEl(currentItem)
+        }
+    } else {
+        shoppingListEl.innerHTML = "No items here...yet"
     }
+    
 })
 
 function clearShoppingListEl() {
